@@ -1,0 +1,3 @@
+[submodule "cfde-submit"]
+	path = cfde-submit
+	url = https://github.com/nih-cfde/cfde-submit.git
