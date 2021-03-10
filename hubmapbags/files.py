@@ -20,11 +20,11 @@ def __get_file_creation_date( file ):
     return str(datetime.datetime.fromtimestamp(t))
 
 def __get_file_format( file ):
-    extension = get_file_extension( file )
+    extension = __get_file_extension( file )
     return extension
 
 def __get_data_type( file ):
-    extension = get_file_extension( file )
+    extension = __get_file_extension( file )
     return extension
 
 def __get_mime_type( file ):
@@ -72,7 +72,7 @@ def _build_dataframe( project_id, directory ):
 
 def create_manifest( project_id, directory ):
     filename = 'file.tsv'
-    if not directory.exists():
+    if not Path(directory).exists():
         print('Data directory does not exist')
         return False
     else:

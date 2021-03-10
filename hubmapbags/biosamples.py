@@ -15,7 +15,7 @@ def _build_dataframe():
 
 def create_manifest():
     filename = 'biosample.tsv'
-    df = _build_dataframe( data_provider )
+    df = _build_dataframe()
     df.to_csv( filename, sep="\t", index=False)
 
     return True

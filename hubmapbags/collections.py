@@ -8,6 +8,7 @@ def _build_dataframe( hubmap_id ):
     '''
 
     id_namespace = 'HuBMAP'
+    headers = ['id_namespace', 'local_id', 'persistent_id', 'creation_time', 'abbreviation', 'name', 'description']
     df = pd.DataFrame(columns=headers)
     df = df.append({'id_namespace':id_namespace, 'local_id':hubmap_id, 'name':hubmap_id}, ignore_index=True)
 
@@ -15,7 +16,7 @@ def _build_dataframe( hubmap_id ):
 
 def create_manifest( hubmap_id ):
     filename = 'collection.tsv'
-    df = _build_dataframe( data_provider )
+    df = _build_dataframe( hubmap_id )
     df.to_csv( filename, sep="\t", index=False)
 
     return True
