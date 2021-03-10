@@ -2,8 +2,11 @@ import pandas as pd
 from pathlib import Path
 from shutil import rmtree
 
-# Project
-def build_dataframe( data_provider ):
+def _build_dataframe( data_provider ):
+    '''
+    Build a dataframe with minimal information for this entity.
+    '''
+
     id_namespace = 'HuBMAP'
     headers = ['id_namespace', 'local_id', 'persistent_id', 'creation_time', 'abbreviation', 'name', 'description']
     df = pd.DataFrame(columns=headers)
@@ -13,8 +16,7 @@ def build_dataframe( data_provider ):
 
 def create_manifest( data_provider ):
     filename = 'project.tsv'
-    df = build_dataframe( data_provider )
+    df = _build_dataframe( data_provider )
     df.to_csv( filename, sep="\t", index=False)
-    
-    return True
 
+    return True
