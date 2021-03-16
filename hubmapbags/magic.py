@@ -3,7 +3,7 @@ from pathlib import Path
 from shutil import rmtree
 from shutil import move
 
-from . import biosamples, projects, collections, anatomy, files
+from . import idnamespace, primarydcccontact, biosamples, projects, collections, anatomy, files
 
 def do_it( data_provider, metadata_file ):
     datasets = pd.read_csv( metadata_file )
@@ -41,6 +41,10 @@ def do_it( data_provider, metadata_file ):
         move( 'collection.tsv', output_directory )
         anatomy.create_manifest( organ_shortcode, organ_id )
         move( 'anatomy.tsv', output_directory )
+        primarydcccontact.create_manifest( data_provider )        
+        move( 'primary_dcc_contact.tsv', output_directory )
+        idnamespace.create_manifest()
+        move( 'id_namespace.tsv', output_directory )
         answer = files.create_manifest( data_provider, assay_type, data_directory )
         if answer:
             move( 'file.tsv', output_directory )

@@ -10,4 +10,6 @@ from .biosamples import *
 from .collections import *
 from .files import *
 from .projects import *
+from .idnamespace import *
+from .primarydcccontact import *
 from .magic import *
