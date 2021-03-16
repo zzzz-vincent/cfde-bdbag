@@ -88,8 +88,9 @@ def _build_dataframe( project_id, assay_type, directory ):
     id_namespace = 'HuBMAP'
     headers = ['id_namespace', \
                'local_id', \
-               'project_id', \
-               'persisten_id', \
+               'project_id_namespace', \
+               'project_local_id', \
+               'persistent_id', \
                'creation_time', \
                'size_in_bytes', \
                'uncompressed_size_in_bytes', \
@@ -110,7 +111,8 @@ def _build_dataframe( project_id, assay_type, directory ):
         print('Processing ' + str(file) )
         df = df.append({'id_namespace':id_namespace, \
                         'local_id':file, \
-                        'project_id':project_id, \
+                        'project_id_namespace', \
+                        'project_local_id':project_id, \
                         'creation_time':__get_file_creation_date(file), \
                         'size_in_bytes':__get_file_size(file), \
                         'filename':__get_filename(file), \
