@@ -3,19 +3,25 @@ from pathlib import Path
 from shutil import rmtree
 from shutil import move
 
-from . import biosamples, projects, collections, files
+from . import biosamples, projects, collections, anatomy, files
 
 def do_it( data_provider, metadata_file ):
     datasets = pd.read_csv( metadata_file )
 
     for dataset in datasets.iterrows():
         dataset = dataset[1]
-        status = dataset['m.status'].lower()
-        assay_type = dataset['m.data_types'].replace('[','').replace(']','').replace('\'','').lower()
+        status = dataset['dset_meta.status'].lower()
+        assay_type = dataset['dset_meta.data_types'].replace('[','').replace(']','').replace('\'','').lower()
         hubmap_id = dataset['hubmap_id']
-        data_directory = dataset['m.local_directory_url_path']
+        biosample_id = dataset['first_sample_id']
+        data_directory = dataset['full_path']
+        organ_shortcode = dataset['organ']
+        organ_id = dataset['organ_id']
 
-        output_directory = assay_type + '-' + status + '-' + dataset['e.uuid']
+        if status == 'new':
+            print('Dataset is not published. Aborting computation.')
+
+        output_directory = assay_type + '-' + status + '-' + dataset['dataset_uuid']
         p = Path( output_directory )
 
         if p.exists() and p.is_dir():
@@ -27,13 +33,16 @@ def do_it( data_provider, metadata_file ):
             print('Creating folder ' + output_directory)
             p.mkdir(parents=True, exist_ok=True)
 
-        biosamples.create_manifest()
-        move( 'biosample.tsv', output_directory)
+        biosamples.create_manifest( biosample_id, data_provider, organ_shortcode )
+        move( 'biosample.tsv', output_directory )
         projects.create_manifest( data_provider )
-        move( 'project.tsv', output_directory)
+        move( 'project.tsv', output_directory )
         collections.create_manifest( hubmap_id )
-        move( 'collection.tsv', output_directory)
-        files.create_manifest( data_provider, data_directory )
-        move( 'file.tsv', output_directory)
+        move( 'collection.tsv', output_directory )
+        anatomy.create_manifest( organ_shortcode, organ_id )
+        move( 'anatomy.tsv', output_directory )
+        answer = files.create_manifest( data_provider, assay_type, data_directory )
+        if answer:
+            move( 'file.tsv', output_directory )
 
     return True
