@@ -23,7 +23,7 @@ def _build_dataframe( biosample_id, data_provider, organ ):
     '''
 
     id_namespace = 'HuBMAP'
-    headers = ['id_namespace', 'local_id', 'project_id_namespace', 'project_local_id', 'persisten_id', 'creation_time', 'anatomy']
+    headers = ['id_namespace', 'local_id', 'project_id_namespace', 'project_local_id', 'persistent_id', 'creation_time', 'anatomy']
     df = pd.DataFrame(columns=headers)
     df = df.append({'id_namespace':id_namespace, \
        'local_id':biosample_id, \
