@@ -11,5 +11,6 @@ from .collections import *
 from .files import *
 from .projects import *
 from .idnamespace import *
-from .primarydcccontact import *
+from .primary_dcc_contact import *
 from .magic import *
+from .biosample_from_subject import *
