@@ -38,7 +38,7 @@ def _build_dataframe( organ_shortcode, organ_id ):
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'HuBMAP'
+    id_namespace = 'tag:hubmapconsortium.org,2021:'
     headers = ['id', 'name', 'description']
     df = pd.DataFrame(columns=headers)
     df = df.append({'id':__get_organ_from_uberon(organ_shortcode), \

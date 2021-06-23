@@ -5,11 +5,9 @@ import datetime
 import time
 import os
 import mimetypes
-import urllib
-import hashlib
 
 def __get_filename( file ):
-    return file.name.replace(' ', '%20')
+    return file.name
 
 def __get_file_extension( file ):
     return file.suffix
@@ -17,35 +15,9 @@ def __get_file_extension( file ):
 def __get_file_size( file ):
     return file.stat().st_size
 
-def __get_md5( file ):
-    blocksize=2**20
-    m = hashlib.md5()
-    
-    with open( file, "rb" ) as f:
-        while True:
-            buf = f.read(blocksize)
-            if not buf:
-                break
-            m.update( buf )
-
-    return m.hexdigest()
-
-def __get_sha256( file ):
-    blocksize=2**20
-    m = hashlib.md5()
-
-    with open( file, "rb" ) as f:
-        while True:
-            buf = f.read(blocksize)
-            if not buf:
-                break
-            m.update( buf )
-
-    return m.hexdigest()
-
 def __get_file_creation_date( file ):
     t = os.path.getmtime(str(file))
-    return str(datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d'))
+    return str(datetime.datetime.fromtimestamp(t))
 
 def __get_file_format( file ):
     extension = __get_file_extension( file )
@@ -127,64 +99,43 @@ def __get_assay_type_from_obi(assay_type):
     assay[''] = 'OBI:0002764' #scATACseq
     assay['snatacseq'] = 'OBI:0002762' #snATAC-seq
     assay['wgs'] = 'OBI:0002117' #WGS
-    assay['codex'] = 'OBI:0001501' #CODEX    
-    assay['imc'] = 'OBI:0001977' #IMC
-
+    
     return assay[assay_type]
 
-def _build_dataframe( project_id, assay_type, directory ):
+def _build_dataframe( hubmap_id, directory ):
     '''
     Build a dataframe with minimal information for this entity.
     '''
 
     id_namespace = 'tag:hubmapconsortium.org,2021:'
-    headers = ['id_namespace', \
-               'local_id', \
-               'project_id_namespace', \
-               'project_local_id', \
-               'persistent_id', \
-               'creation_time', \
-               'size_in_bytes', \
-               'uncompressed_size_in_bytes', \
-               'sha256', \
-               'md5', \
-               'filename', \
-               'file_format', \
-               'data_type', \
-               'assay_type', \
-               'mime_type']
+    headers = ['file_id_namespace', \
+               'file_local_id', \
+               'collection_id_namespace', \
+               'collection_local_id']
 
     df = pd.DataFrame(columns=headers)
 
     p = Path(directory).glob('**/*')
     print('Finding all files in directory')
-    #files = [x for x in p if x.is_file()]
+    files = [x for x in p if x.is_file()]
 
     for file in p:
         if file.is_file():
 	        print('Processing ' + str(file) )
         	if str(file).find('drv_') < 0 or str(file).find('processed') < 0:
-        		df = df.append({'id_namespace':id_namespace, \
-                        	'local_id':str(file).replace(' ','%20'), \
-                        	'project_id_namespace':id_namespace, \
-                        	'project_local_id':project_id, \
-                        	'creation_time':__get_file_creation_date(file), \
-                        	'size_in_bytes':__get_file_size(file), \
-                        	'__get_sha256':__get_sha256(file), \
-				'filename':__get_filename(file), \
-                        	'file_format':__get_file_format(file), \
-                        	'data_type':__get_data_type(file), \
-                        	'assay_type':__get_assay_type_from_obi(assay_type), \
-                        	'mime_type':__get_mime_type(file)}, ignore_index=True)
+        		df = df.append({'file_id_namespace':id_namespace, \
+                        	'file_local_id':str(file).replace(' ','%20'), \
+                        	'collection_id_namespace':id_namespace, \
+                        	'collection_local_id':hubmap_id}, ignore_index=True)
 
     return df
 
-def create_manifest( project_id, assay_type, directory ):
-    filename = 'file.tsv'
+def create_manifest( hubmap_id, directory ):
+    filename = 'file_in_collection.tsv'
     if not Path(directory).exists():
         print('Data directory ' + directory + ' does not exist')
         return False
     else:
-        df = _build_dataframe( project_id, assay_type, directory )
+        df = _build_dataframe( hubmap_id, directory )
         df.to_csv( filename, sep="\t", index=False)
         return True
