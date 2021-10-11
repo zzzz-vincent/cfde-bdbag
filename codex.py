@@ -3,7 +3,7 @@
 
 import hubmapbags
 
-data_provider = 'Vanderbilt University'
-metadata_file = 'hubmap-af-20210609.csv'
+data_provider = 'University of Florida'
+metadata_file = 'hubmap-codex-20210820.csv'
 
 hubmapbags.magic.do_it( data_provider, metadata_file )
