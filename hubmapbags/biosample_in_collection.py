@@ -18,6 +18,10 @@ def _build_dataframe( biosample_id, hubmap_id ):
     return df
 
 def create_manifest( biosample_id, hubmap_id ):
+    '''
+    Helper function that creates the TSV file
+    '''
+    
     filename = 'biosample_in_collection.tsv'
     df = _build_dataframe( biosample_id, hubmap_id )
     df.to_csv( filename, sep="\t", index=False)

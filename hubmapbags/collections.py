@@ -15,6 +15,10 @@ def _build_dataframe( hubmap_id ):
     return df
 
 def create_manifest( hubmap_id ):
+    '''
+    Helper function that creates the TSV file
+    '''
+
     filename = 'collection.tsv'
     df = _build_dataframe( hubmap_id )
     df.to_csv( filename, sep="\t", index=False)

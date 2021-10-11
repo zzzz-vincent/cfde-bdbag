@@ -7,7 +7,7 @@ def __get_name( organ ):
     For full list, visit
     https://github.com/hubmapconsortium/search-api/blob/test-release/src/search-schema/data/definitions/enums/organ_types.yaml
     '''
-
+    
     organs = {}
     organs['SI'] = 'Small intestine'
     organs['LI'] = 'Large intestine'
@@ -22,7 +22,7 @@ def __get_organ_from_uberon( organ ):
     For full list, visit
     https://github.com/hubmapconsortium/search-api/blob/test-release/src/search-schema/data/definitions/enums/organ_types.yaml
     '''
-   
+
     print('Organ is ' + organ ) 
     organs = {}
     organs['SI'] = 'UBERON:0002108' #small intestine
@@ -42,12 +42,16 @@ def _build_dataframe( organ_shortcode, organ_id ):
     headers = ['id', 'name', 'description']
     df = pd.DataFrame(columns=headers)
     df = df.append({'id':__get_organ_from_uberon(organ_shortcode), \
-           'name':organ_id, \
-           'description':__get_name(organ_shortcode)}, ignore_index=True)
+            'name':organ_id, \
+            'description':__get_name(organ_shortcode)}, ignore_index=True)
 
     return df
 
 def create_manifest( organ_shortcode, organ_id ):
+    '''
+    Helper function that creates the TSV file
+    '''
+
     filename = 'anatomy.tsv'
     df = _build_dataframe( organ_shortcode, organ_id )
     df.to_csv( filename, sep="\t", index=False)

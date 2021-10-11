@@ -11,6 +11,15 @@ from .collections import *
 from .files import *
 from .projects import *
 from .idnamespace import *
-from .primary_dcc_contact import *
+from .primarydcccontact import *
 from .magic import *
+from .files_in_collection import *
+from .biosample_in_collection import *
+from .subject import *
+from .ncbi_taxonomy import *
+from .subject import *
+from .subject_in_collection import *
 from .biosample_from_subject import *
+from .file_describes_biosample import *
+from .file_describes_subject import *
+from .collection_defined_by_project import *
