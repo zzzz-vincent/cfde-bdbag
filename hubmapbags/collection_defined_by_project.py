@@ -15,10 +15,6 @@ def _build_dataframe( collection_id, project_id ):
     return df
 
 def create_manifest( collection_id, project_id ):
-    '''
-    Helper function that creates the TSV file
-    '''
-
     filename = 'collection_defined_by_project.tsv'
     df = _build_dataframe( collection_id, project_id )
     df.to_csv( filename, sep="\t", index=False)

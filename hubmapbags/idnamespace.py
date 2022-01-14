@@ -11,17 +11,13 @@ def _build_dataframe():
     headers = ['id', 'abbreviation', 'name', 'description']
     df = pd.DataFrame(columns=headers)
     df = df.append({'id':'HuBMAP', \
-            'abbreviation':'HuBMAP', \
-            'name':'HuBMAP', \
-            'description':'Human BioMolecular Atlas Program'}, ignore_index=True)
+           'abbreviation':'HuBMAP', \
+           'name':'HuBMAP', \
+           'description':'Human BioMolecular Atlas Program'}, ignore_index=True)
 
     return df
 
 def create_manifest():
-    '''
-    Helper function that creates the TSV file
-    '''
-
     filename = 'id_namespace.tsv'
     df = _build_dataframe()
     df.to_csv( filename, sep="\t", index=False)

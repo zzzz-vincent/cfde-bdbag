@@ -14,14 +14,10 @@ def _build_dataframe( data_provider ):
                     'local_id':data_provider, \
                     'abbreviation':data_provider.replace(' ','_'), \
                     'name':data_provider}, ignore_index=True)
-
+  
     return df
 
 def create_manifest( data_provider ):
-    '''
-    Helper function that creates the TSV file
-    '''
-
     filename = 'project.tsv'
     df = _build_dataframe( data_provider )
     df.to_csv( filename, sep="\t", index=False)

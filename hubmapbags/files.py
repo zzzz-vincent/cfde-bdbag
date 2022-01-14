@@ -11,34 +11,18 @@ import hashlib
 import pickle
 
 def __get_filename( file ):
-    '''
-    Helper function that returns a valid filename representation
-    '''
-
     return file.name.replace(' ', '%20')
 
 def __get_file_extension( file ):
-    '''
-    Helper function that returns the filename extension
-    '''
-
     return file.suffix
 
 def __get_file_size( file ):
-    '''
-    Helper function that returns the file size in bytes
-    '''
-
     return file.stat().st_size
 
 def __get_md5( file ):
-    '''
-    Helper function that computes the file md5 checksum
-    '''
-
     blocksize=2**20
     m = hashlib.md5()
-    
+
     with open( file, "rb" ) as f:
         while True:
             buf = f.read(blocksize)
@@ -49,10 +33,6 @@ def __get_md5( file ):
     return m.hexdigest()
 
 def __get_sha256( file ):
-    '''
-    Helper function that computes the file sha256 checksum
-    '''
-
     blocksize=2**20
     m = hashlib.md5()
 
@@ -66,26 +46,14 @@ def __get_sha256( file ):
     return m.hexdigest()
 
 def __get_file_creation_date( file ):
-    '''
-    Helper function that returns the file creation date
-    '''
-
     t = os.path.getmtime(str(file))
     return str(datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d'))
 
 def __get_file_format( file ):
-    '''
-    Helper function that returns the file format
-    '''
-
     extension = __get_file_extension( file )
     return extension
 
 def __get_data_type( file ):
-    '''
-    Helper function that returns the EDAM Ontology code of the file data type.
-    '''
-
     extension = __get_file_extension( file )
 
     try:
@@ -118,17 +86,9 @@ def __get_data_type( file ):
         return ''
 
 def __get_mime_type( file ):
-    '''
-    Helper function that returns the file MIME type.
-    '''
-
     return mimetypes.MimeTypes().guess_type(str(file))[0]
 
 def __get_file_format( file ):
-    '''
-    Helper function that returns the EDAM Ontology code of the file format.
-    '''
-
     extension = __get_file_extension( file )
 
     try:
@@ -161,10 +121,6 @@ def __get_file_format( file ):
         return ''
 
 def __get_assay_type_from_obi(assay_type):
-    '''
-    Helper function that returns the OBI Ontology code for the file data type.
-    '''
-
     assay = {}
     assay['af'] = 'OBI:0003087' #AF
     assay['atacseq-bulk'] = 'OBI:0003089' #Bulk ATAC-seq
@@ -176,17 +132,21 @@ def __get_assay_type_from_obi(assay_type):
     assay['codex'] = 'OBI:0003093' #CODEX    
     assay['lightsheet'] = 'OBI:0003098' #Lightsheet
     assay['imc'] = 'OBI:0001977' #IMC
+    assay['imc3d'] = 'OBI:0001977' #IMC
     assay['maldi-ims-neg'] = 'OBI:0003099'
     assay['maldi-ims-pos'] = 'OBI:0003099'
     assay['pas'] = 'OBI:0003103'
-
+    assay['slide-seq'] = 'OBI:0003107'
+    assay['seqfish'] = 'OBI:0003094'
+    assay['lc-ms-untargeted'] = 'OBI:0003097'
+    assay['tmt-lc-ms'] = 'OBI:0003097'
+    assay['targeted-shotgun-lc-ms'] = 'OBI:0003097'
     return assay[assay_type]
 
 def _get_list_of_files( directory ):
-    '''
-    Helper function that returns the EDAM Ontology code for the file data type.
-    '''
-
+    #p1 = Path(directory).glob('**//[!_drv]*')
+    #p2 = Path(directory).glob('**//[!processed]*')
+    #return chain(p1,p2)
     return Path(directory).glob('**/*')
 
 def _build_dataframe( project_id, assay_type, directory ):
@@ -196,27 +156,30 @@ def _build_dataframe( project_id, assay_type, directory ):
 
     id_namespace = 'tag:hubmapconsortium.org,2021:'
     headers = ['id_namespace', \
-                'local_id', \
-                'project_id_namespace', \
-                'project_local_id', \
-                'persistent_id', \
-                'creation_time', \
-                'size_in_bytes', \
-                'uncompressed_size_in_bytes', \
-                'sha256', \
-                'md5', \
-                'filename', \
-                'file_format', \
-                'data_type', \
-                'assay_type', \
-                'mime_type']
+               'local_id', \
+               'project_id_namespace', \
+               'project_local_id', \
+               'persistent_id', \
+               'creation_time', \
+               'size_in_bytes', \
+               'uncompressed_size_in_bytes', \
+               'sha256', \
+               'md5', \
+               'compression_format', \
+               'filename', \
+               'file_format', \
+               'data_type', \
+               'assay_type', \
+               'mime_type', \
+               'bundle_collection_id_namespace', \
+               'bundle_collection_local_id']
 
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
 
     if Path( temp_file ).exists():
         print('Temporary file ' + temp_file + ' found. Loading df into memory') 
         with open( temp_file, 'rb' ) as file:
-            df = pickle.load(file)
+           df = pickle.load(file)
     else:
         df = pd.DataFrame(columns=headers)
         p = _get_list_of_files( directory )
@@ -224,9 +187,9 @@ def _build_dataframe( project_id, assay_type, directory ):
 
         for file in p:
             if file.is_file():
-                    if str(file).find('drv') < 0 or str(file).find('processed') < 0:
-                        print('Processing ' + str(file) )
-                        df = df.append({'id_namespace':id_namespace, \
+                   if str(file).find('drv') < 0 or str(file).find('processed') < 0:
+                       print('Processing ' + str(file) )
+                       df = df.append({'id_namespace':id_namespace, \
                             'local_id':str(file).replace(' ','%20'), \
                             'project_id_namespace':id_namespace, \
                             'project_local_id':project_id, \
@@ -235,9 +198,12 @@ def _build_dataframe( project_id, assay_type, directory ):
                             'sha256':__get_sha256(file), \
                             'filename':__get_filename(file), \
                             'file_format':__get_file_format(file), \
+                            'compression_format':'', \
                             'data_type':__get_data_type(file), \
                             'assay_type':__get_assay_type_from_obi(assay_type), \
-                            'mime_type':__get_mime_type(file)}, ignore_index=True)
+                            'mime_type':__get_mime_type(file), \
+                            'bundle_collection_id_namespace':'', \
+                            'bundle_collection_local_id':''}, ignore_index=True)
 
         print('Saving df to disk in file ' + temp_file)
         with open( temp_file, 'wb' ) as file:
@@ -246,15 +212,14 @@ def _build_dataframe( project_id, assay_type, directory ):
     return df
 
 def create_manifest( project_id, assay_type, directory ):
-    '''
-    Helper function that creates the TSV file
-    '''
-    
     filename = 'file.tsv'
-    if not Path(directory).exists():
-        print('Data directory ' + directory + ' does not exist')
+    temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
+    if not Path(directory).exists() and not Path(temp_file).exists():
+        print('Data directory ' + directory + ' does not exist. Temp file was not found either.')
         return False
     else:
+        if Path(temp_file).exists():
+            print('Temp file ' + temp_file + ' found. Continuing computation.')
         df = _build_dataframe( project_id, assay_type, directory )
         df.to_csv( filename, sep="\t", index=False)
         return True

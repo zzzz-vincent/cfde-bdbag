@@ -18,10 +18,6 @@ def _build_dataframe( biosample_id, subject_id ):
     return df
 
 def create_manifest( biosample_id, subject_id ):
-    '''
-    Helper function that creates the TSV file
-    '''
-    
     filename = 'biosample_from_subject.tsv'
     df = _build_dataframe( biosample_id, subject_id )
     df.to_csv( filename, sep="\t", index=False)
