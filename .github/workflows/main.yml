@@ -12,4 +12,5 @@ jobs:
               with:
                 python-version: '3.7'
             - name: Build bag for sample CODEX dataset
+              run: pip install pandas tabulate
               run: bash ./test.sh
