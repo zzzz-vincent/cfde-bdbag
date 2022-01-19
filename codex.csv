@@ -1,0 +1,2 @@
+ds.group_name,dataset_uuid,dset.status,dset.data_types,dset.group_uuid,hubmap_id,first_sample_id,first_sample_type,organ,organ_id,donor_id,full_path
+University of Florida,0dc91e6484430c2db25b6765dd6aa565,Published,'CODEX',07a29e4c-ed43-11e8-b56a-0e8017bdda58,HBM573.VSJK.526,HBM676.BLTC.766,ffpe_slide,LY,HBM783.KBNJ.966,HBM638.SMWG.276,/hive/hubmap/data/public/0dc91e6484430c2db25b6765dd6aa565
