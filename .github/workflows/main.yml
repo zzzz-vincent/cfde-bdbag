@@ -13,4 +13,6 @@ jobs:
                 python-version: '3.7'
                 cache: 'pip'
             - name: Build bag for sample CODEX dataset
-              run: pip install -r requirements.txt
+              run: |
+                pip install -r requirements.txt
+                bash ./test.sh
