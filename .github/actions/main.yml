@@ -1,0 +1,8 @@
+steps:
+- uses: actions/checkout@v2
+- uses: actions/setup-python@v2
+  with:
+    python-version: '3.7' 
+    architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+- name "Running basic test with sample CODEX dataset"
+- run: bash ./test.sh
