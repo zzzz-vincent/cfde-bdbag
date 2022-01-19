@@ -6,7 +6,7 @@ from os import remove
 
 from . import file_describes_biosample, file_describes_subject, biosample_from_subject, subject, subject_in_collection, ncbi_taxonomy, idnamespace, biosample_in_collection, files_in_collection, primarydcccontact, biosamples, projects, collections, anatomy, files, collection_defined_by_project
 
-def do_it( data_provider, metadata_file ):
+def do_it( metadata_file ):
     datasets = pd.read_csv( metadata_file )
     print( 'Number of datasets found is ' + str(datasets.shape[0]) )
 
