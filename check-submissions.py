@@ -108,4 +108,4 @@ if _get_number_of_files( directory ) != 23:
 	print('Expected number of files is 23. Number of files found is ' + str(_get_number_of_files( directory )) + '.\n')
 
 	if not path.isfile( directory + 'C2M2_datapackage.json' ):
-		print('File ' + str(directory) + 'C2M2_datapackage.json was expected to exist, and it was not.\n')
+		print('File ' + str(directory) + 'C2M2_datapackage.json was expected to exist, and it does not.\n')
