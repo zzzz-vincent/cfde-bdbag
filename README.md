@@ -2,3 +2,4 @@
 
 ## Requirements
 * tabulate
+* pandas
