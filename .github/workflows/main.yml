@@ -1,10 +1,18 @@
-name: Basic test
+
+name: Build it!
 on: [push, pull_request]
-steps:
-- uses: actions/checkout@v2
-- uses: actions/setup-python@v2
-  with:
-    python-version: '3.7' 
-    architecture: 'x64'
-- name: "Running basic test with sample CODEX dataset"
-- run: bash ./test.sh
+jobs:
+    resources:
+        name: Update resources
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+            - uses: actions/setup-python@v2
+              with:
+                python-version: '3.7'
+                cache: 'pip'
+            - name: Build bag for sample CODEX dataset
+              run: |
+                pip install -r requirements.txt
+                bash ./test.sh
