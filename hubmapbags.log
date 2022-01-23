@@ -1,0 +1,30 @@
+Sun, 23 Jan 2022 17:48:38 INFO     Number of datasets found is 1
+Sun, 23 Jan 2022 17:48:38 INFO     Preparing bag for dataset /hive/hubmap/data/public/0dc91e6484430c2db25b6765dd6aa565
+Sun, 23 Jan 2022 17:48:38 INFO     Creating checkpoint _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.computing
+Sun, 23 Jan 2022 17:48:38 INFO     Creating folder codex-published-0dc91e6484430c2db25b6765dd6aa565
+Sun, 23 Jan 2022 17:48:38 INFO     Making biosample.tsv
+Sun, 23 Jan 2022 17:48:38 INFO     Making file.tsv
+Sun, 23 Jan 2022 17:48:38 INFO     Temp file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Continuing computation.
+Sun, 23 Jan 2022 17:48:38 INFO     Temporary file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Loading df into memory
+Sun, 23 Jan 2022 17:48:39 INFO     Making biosample_in_collection.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making project.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making biosample_from_subject.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making ncbi_taxonomy.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making collection.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making collection_defined_by_project.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making file_describes_subject.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Temp file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Continuing computation.
+Sun, 23 Jan 2022 17:48:39 INFO     Temporary file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Loading df into memory
+Sun, 23 Jan 2022 17:48:39 INFO     Making dcc.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making id_namespace.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making subject.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making file_describes_biosample.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Temp file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Continuing computation.
+Sun, 23 Jan 2022 17:48:39 INFO     Temporary file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Loading df into memory
+Sun, 23 Jan 2022 17:48:39 INFO     Making subject_in_collection.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Making files_in_collection.tsv
+Sun, 23 Jan 2022 17:48:39 INFO     Temp file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Continuing computation.
+Sun, 23 Jan 2022 17:48:39 INFO     Temporary file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl created
+Sun, 23 Jan 2022 17:48:39 INFO     Temporary file _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.pkl found. Loading df into memory
+Sun, 23 Jan 2022 17:48:40 INFO     Removing checkpoint _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.computing
+Sun, 23 Jan 2022 17:48:40 INFO     Creating final checkpoint _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.done
