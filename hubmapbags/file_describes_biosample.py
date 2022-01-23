@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 from pathlib import Path
 from shutil import rmtree
@@ -53,7 +55,7 @@ def __get_data_type( file ):
 
         return formats[extension]
     except:
-        print( 'Unable to find key for data type ' + extension )
+        logging.warning( 'Unable to find key for data type ' + extension )
         return ''
 
 def __get_mime_type( file ):
@@ -88,7 +90,7 @@ def __get_file_format( file ):
 
         return formats[extension]
     except:
-        print('Unable to find key for file format ' + extension )
+        logging.warning('Unable to find key for file format ' + extension )
         return ''
 
 def __get_assay_type_from_obi(assay_type):
@@ -116,7 +118,7 @@ def _build_dataframe( biosample_id, directory ):
 
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if Path( temp_file ).exists():
-        print('Temporary file ' + temp_file + ' found. Loading df into memory')
+        logging.info('Temporary file ' + temp_file + ' found. Loading df into memory')
         with open( temp_file, 'rb' ) as file:
             df = pickle.load(file)
 
@@ -135,11 +137,11 @@ def _build_dataframe( biosample_id, directory ):
         df = pd.DataFrame(columns=headers)
 
         p = Path(directory).glob('**/*')
-        print('Finding all files in directory ' + str(directory))
+        logging.info('Finding all files in directory ' + str(directory))
 
         for file in p:
             if file.is_file():
-                print('Processing ' + str(file) )
+                logging.info('Processing ' + str(file) )
                 if str(file).find('drv_') < 0 or str(file).find('processed') < 0:
                     df = df.append({'file_id_namespace':id_namespace, \
                         'file_local_id':str(file).replace(' ','%20'), \
@@ -152,11 +154,11 @@ def create_manifest( biosample_id, directory ):
     filename = 'file_describes_biosample.tsv'
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if not Path(directory).exists() and not Path(temp_file).exists():
-        print('Data directory ' + directory + ' does not exist. Temp file was not found either.')
+        logging.info('Data directory ' + directory + ' does not exist. Temp file was not found either.')
         return False
     else:
         if Path(temp_file).exists():
-            print('Temp file ' + temp_file + ' found. Continuing computation.')
+            logging.info('Temp file ' + temp_file + ' found. Continuing computation.')
         df = _build_dataframe( biosample_id, directory )
         df.to_csv( filename, sep="\t", index=False)
         return True

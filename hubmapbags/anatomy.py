@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 from pathlib import Path
 from shutil import rmtree
@@ -23,7 +25,7 @@ def __get_organ_from_uberon( organ ):
     https://github.com/hubmapconsortium/search-api/blob/test-release/src/search-schema/data/definitions/enums/organ_types.yaml
     '''
    
-    print('Organ is ' + organ ) 
+    logging.info('Organ is ' + organ )
     organs = {}
     organs['SI'] = 'UBERON:0002108' #small intestine
     organs['LI'] = 'UBERON:0000059' #large intestine
