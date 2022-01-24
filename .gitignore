@@ -4,3 +4,5 @@ _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.done
 _hive_hubmap_data_public_0dc91e6484430c2db25b6765dd6aa565.computing
 codex-published-0dc91e6484430c2db25b6765dd6aa565/
 hubmapbags/__pycache__/
+.ideas/
+*.log
