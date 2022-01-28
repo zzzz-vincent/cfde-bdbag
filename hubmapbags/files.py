@@ -211,6 +211,9 @@ def _build_dataframe(project_id, assay_type, directory):
                     logging.info('Processing ' + str(file))
                     get_assay_type = __get_assay_type_from_obi(assay_type)
                     if get_assay_type is None:
+                        logging.warning("Assay Type is empty.\
+                         More than likely assay type not in the list of valid terms.\
+                         Skipping to next dataset in list.")
                         break
                     df = df.append({'id_namespace': id_namespace, \
                                     'local_id': str(file).replace(' ', '%20'), \
