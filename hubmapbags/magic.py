@@ -3,6 +3,10 @@ from pathlib import Path
 from shutil import rmtree
 from shutil import move
 from os import remove
+import logging
+import glob
+import os.path
+import shutil
 
 from . import file_describes_biosample, file_describes_subject, biosample_from_subject, subject, subject_in_collection, ncbi_taxonomy, idnamespace, biosample_in_collection, files_in_collection, primarydcccontact, biosamples, projects, collections, anatomy, files, collection_defined_by_project
 
@@ -117,5 +121,11 @@ def do_it( metadata_file ):
             print('Creating final checkpoint ' + done )
             with open(done, 'w') as file:
                 pass
+
+            # Copy empty files
+            for file in glob.glob(os.path.join("./empty", "*.tsv")):
+                if file not in glob.glob(os.path.join(output_directory, "*.tsv")):
+                    shutil.copy(file, output_directory)
+                    logging.info('adding empty tsv file %s to output directory', file)
 
     return True
