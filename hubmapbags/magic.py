@@ -3,6 +3,8 @@ from pathlib import Path
 from shutil import rmtree
 from shutil import move
 from os import remove
+import pickle
+import sqlite3
 
 from . import file_describes_biosample, file_describes_subject, biosample_from_subject, subject, subject_in_collection, ncbi_taxonomy, idnamespace, biosample_in_collection, files_in_collection, primarydcccontact, biosamples, projects, collections, anatomy, files, collection_defined_by_project
 
@@ -23,7 +25,7 @@ def do_it( metadata_file ):
         done = data_directory.replace('/','_').replace(' ','_') + '.done'
         organ_shortcode = dataset['organ']
         organ_id = dataset['organ_id']
-        donor_id = dataset['donor_id'] 
+        donor_id = dataset['donor_id']
 
         if Path(done).exists():
             print('Checkpoint found. Avoiding computation. To re-compute erase file ' + done)
@@ -61,7 +63,7 @@ def do_it( metadata_file ):
 
             print('Making biosample_in_collection.tsv')
             biosample_in_collection.create_manifest( biosample_id, hubmap_id )
-            move( 'biosample_in_collection.tsv', output_directory )        
+            move( 'biosample_in_collection.tsv', output_directory )
 
             print('Making project.tsv')
             projects.create_manifest( data_provider )
@@ -88,7 +90,7 @@ def do_it( metadata_file ):
             move( 'file_describes_subject.tsv', output_directory )
 
             print('Making dcc.tsv')
-            primarydcccontact.create_manifest( data_provider )        
+            primarydcccontact.create_manifest( data_provider )
             move( 'dcc.tsv', output_directory )
 
             print('Making id_namespace.tsv')
@@ -119,3 +121,14 @@ def do_it( metadata_file ):
                 pass
 
     return True
+def store():
+    # build SQLlite DB
+    connection = sqlite3.connect('HubMAP.db')
+    cursor = connection.cursor()
+
+    # read pickle
+    data = pickle.load("")
+
+    # DB closed
+    connection.commit()
+    connection.close()
