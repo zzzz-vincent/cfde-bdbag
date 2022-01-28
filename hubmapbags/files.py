@@ -134,27 +134,32 @@ def __get_file_format(file):
 
 
 def __get_assay_type_from_obi(assay_type):
-    assay = {}
-    assay['af'] = 'OBI:0003087'  # AF
-    assay['atacseq-bulk'] = 'OBI:0003089'  # Bulk ATAC-seq
-    assay['bulk-rna'] = 'OBI:0001271'  # Bulk RNA-seq
-    assay['scrna-seq-10x'] = 'OBI:0002631'  # scRNA-seq
-    assay[''] = 'OBI:0002764'  # scATACseq
-    assay['snatacseq'] = 'OBI:0002762'  # snATAC-seq
-    assay['wgs'] = 'OBI:0002117'  # WGS
-    assay['codex'] = 'OBI:0003093'  # CODEX
-    assay['lightsheet'] = 'OBI:0003098'  # Lightsheet
-    assay['imc'] = 'OBI:0001977'  # IMC
-    assay['imc3d'] = 'OBI:0001977'  # IMC
-    assay['maldi-ims-neg'] = 'OBI:0003099'
-    assay['maldi-ims-pos'] = 'OBI:0003099'
-    assay['pas'] = 'OBI:0003103'
-    assay['slide-seq'] = 'OBI:0003107'
-    assay['seqfish'] = 'OBI:0003094'
-    assay['lc-ms-untargeted'] = 'OBI:0003097'
-    assay['tmt-lc-ms'] = 'OBI:0003097'
-    assay['targeted-shotgun-lc-ms'] = 'OBI:0003097'
-    return assay[assay_type]
+    try:
+        assay = {}
+        assay['af'] = 'OBI:0003087'  # AF
+        assay['atacseq-bulk'] = 'OBI:0003089'  # Bulk ATAC-seq
+        assay['bulk-rna'] = 'OBI:0001271'  # Bulk RNA-seq
+        assay['scrna-seq-10x'] = 'OBI:0002631'  # scRNA-seq
+        assay[''] = 'OBI:0002764'  # scATACseq
+        assay['snatacseq'] = 'OBI:0002762'  # snATAC-seq
+        assay['wgs'] = 'OBI:0002117'  # WGS
+        assay['codex'] = 'OBI:0003093'  # CODEX
+        assay['lightsheet'] = 'OBI:0003098'  # Lightsheet
+        assay['imc'] = 'OBI:0001977'  # IMC
+        assay['imc3d'] = 'OBI:0001977'  # IMC
+        assay['maldi-ims-neg'] = 'OBI:0003099'
+        assay['maldi-ims-pos'] = 'OBI:0003099'
+        assay['pas'] = 'OBI:0003103'
+        assay['slide-seq'] = 'OBI:0003107'
+        assay['seqfish'] = 'OBI:0003094'
+        assay['lc-ms-untargeted'] = 'OBI:0003097'
+        assay['tmt-lc-ms'] = 'OBI:0003097'
+        assay['targeted-shotgun-lc-ms'] = 'OBI:0003097'
+        return assay[assay_type]
+    except:
+        logging.warning('assay_type: %s not found', assay_type)
+    return ''
+
 
 
 def _get_list_of_files(directory):
@@ -206,7 +211,6 @@ def _build_dataframe(project_id, assay_type, directory):
                     logging.info('Processing ' + str(file))
                     get_assay_type = __get_assay_type_from_obi(assay_type)
                     if get_assay_type is None:
-                        logging.warning('assay_type: %s not found', assay_type)
                         break
                     df = df.append({'id_namespace': id_namespace, \
                                     'local_id': str(file).replace(' ', '%20'), \
