@@ -2614,8 +2614,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this OBI term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2662,8 +2661,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this OBI term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2719,8 +2717,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this taxon",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2767,8 +2764,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this UBERON term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2815,8 +2811,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this EDAM format term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2863,8 +2858,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this EDAM data term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2911,8 +2905,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this Disease Ontology term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -2959,8 +2952,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this Human Phenotype Ontology term",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -3007,8 +2999,7 @@
                   "description": "A short, human-readable, machine-read-friendly label for this compound",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -3119,8 +3110,7 @@
                   "description": "The Ensembl 'Name' for this gene (e.g. 'BRCA1')",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
@@ -3185,8 +3175,7 @@
                   "description": "The UniProt recommended name of this protein (e.g. 'Uncharacterized protein YnaG')",
                   "type": "string",
                   "constraints": {
-                     "required": true,
-                     "unique": true
+                     "required": true
                   }
                },
                {
