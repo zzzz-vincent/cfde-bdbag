@@ -24,3 +24,6 @@ lib64
 prepare_C2M2_submission.py
 pyvenv.cfg
 share/
+_hive*done
+_hive*computing
+*.pkl
