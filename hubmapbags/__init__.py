@@ -10,8 +10,8 @@ from .biosamples import *
 from .collections import *
 from .files import *
 from .projects import *
-from .idnamespace import *
-from .primarydcccontact import *
+from .id_namespace import *
+from .primary_dcc_contact import *
 from .magic import *
 from .files_in_collection import *
 from .biosample_in_collection import *
@@ -23,3 +23,5 @@ from .biosample_from_subject import *
 from .file_describes_biosample import *
 from .file_describes_subject import *
 from .collection_defined_by_project import *
+from .project_in_project import *
+from .file_describes_collection import *

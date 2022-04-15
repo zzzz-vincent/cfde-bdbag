@@ -7,7 +7,7 @@ def _build_dataframe( biosample_id, subject_id ):
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2021:'
+    id_namespace = 'tag:hubmapconsortium.org,2022:'
     headers = ['biosample_id_namespace', 'biosample_local_id', 'subject_id_namespace', 'subject_local_id']
     df = pd.DataFrame(columns=headers)
     df = df.append({'biosample_id_namespace':id_namespace, \

@@ -7,26 +7,22 @@ def _build_dataframe( data_provider ):
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2021:'
-    headers = ['contact_email', 'contact_name', 'project_id_namespace', 'project_local_id', 'dcc_abbreviation', 'dcc_name', 'dcc_description', 'dcc_url'] 
+    headers = ['id','contact_email', 'contact_name', 'project_id_namespace', 'project_local_id', 'dcc_abbreviation', 'dcc_name', 'dcc_description', 'dcc_url'] 
     df = pd.DataFrame(columns=headers)
-    df = df.append({'contact_email':'cfde-submissions@hubmapconsortium.org',\
-            'contact_name':'Ivan Cao-Berg',\
-            'project_id_namespace':id_namespace,\
-            'project_local_id':data_provider,\
-            'dcc_abbreviation':'HuBMAP',\
-            'dcc_name':'HuBMAP',\
-            'dcc_description':'Human BioMolecular Atlas Program',\
-            'dcc_url':'http://portal.hubmapconsortium.org'}, ignore_index=True)
+    df = df.append({ 'id':'cfde_registry_dcc:HuBMAP', \
+        'project_id_namespace':'tag:hubmapconsortium.org,2022:', \
+        'project_local_id':'HuBMAP', \
+        'contact_email':'cfde-submissions@hubmapconsortium.org',\
+        'contact_name':'Ivan Cao-Berg', \
+        'dcc_abbreviation':'HuBMAP', \
+        'dcc_name':'HuBMAP', \
+        'dcc_description':'Human BioMolecular Atlas Program',\
+        'dcc_url':'http://portal.hubmapconsortium.org'}, ignore_index=True)
 
     return df
 
 def create_manifest( data_provider ):
-    '''
-    Helper function that creates the TSV file
-    '''
-
-    filename = 'primary_dcc_contact.tsv'
+    filename = 'dcc.tsv'
     df = _build_dataframe( data_provider )
     df.to_csv( filename, sep="\t", index=False)
 

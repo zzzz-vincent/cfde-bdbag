@@ -111,7 +111,7 @@ def _build_dataframe( hubmap_id, directory ):
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2021:'
+    id_namespace = 'tag:hubmapconsortium.org,2022:'
     headers = ['file_id_namespace', \
                'file_local_id', \
                'collection_id_namespace', \

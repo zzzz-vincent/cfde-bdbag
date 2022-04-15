@@ -7,7 +7,7 @@ def _build_dataframe( collection_id, project_id ):
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2021:'
+    id_namespace = 'tag:hubmapconsortium.org,2022:'
     headers = ['collection_id_namespace', 'collection_local_id', 'project_id_namespace', 'project_local_id']
     df = pd.DataFrame(columns=headers)
     df = df.append({'collection_id_namespace':id_namespace, 'collection_local_id':collection_id, 'project_id_namespace':id_namespace, 'project_local_id':project_id}, ignore_index=True)

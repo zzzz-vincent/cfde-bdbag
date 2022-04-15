@@ -120,6 +120,15 @@ def __get_file_format( file ):
         print('Unable to find key for file format ' + extension )
         return ''
 
+def __get_dbgap_study_id( file, dbgap_study_id ):
+    if dbgap_study_id == '':
+        return ''
+    else:
+        if str(file).find('tar.gz') > 0:
+           return dbgap_study_id
+        else:
+           return ''
+
 def __get_assay_type_from_obi(assay_type):
     assay = {}
     assay['af'] = 'OBI:0003087' #AF
@@ -149,12 +158,12 @@ def _get_list_of_files( directory ):
     #return chain(p1,p2)
     return Path(directory).glob('**/*')
 
-def _build_dataframe( project_id, assay_type, directory ):
+def _build_dataframe( project_id, assay_type, dbgap_study_id, directory ):
     '''
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2021:'
+    id_namespace = 'tag:hubmapconsortium.org,2022:'
     headers = ['id_namespace', \
                'local_id', \
                'project_id_namespace', \
@@ -172,7 +181,8 @@ def _build_dataframe( project_id, assay_type, directory ):
                'assay_type', \
                'mime_type', \
                'bundle_collection_id_namespace', \
-               'bundle_collection_local_id']
+               'bundle_collection_local_id', \
+               'dbgap_study_id']
 
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
 
@@ -203,7 +213,8 @@ def _build_dataframe( project_id, assay_type, directory ):
                             'assay_type':__get_assay_type_from_obi(assay_type), \
                             'mime_type':__get_mime_type(file), \
                             'bundle_collection_id_namespace':'', \
-                            'bundle_collection_local_id':''}, ignore_index=True)
+                            'bundle_collection_local_id':'', \
+			    'dbgap_study_id':__get_dbgap_study_id(file,dbgap_study_id)}, ignore_index=True)
 
         print('Saving df to disk in file ' + temp_file)
         with open( temp_file, 'wb' ) as file:
@@ -211,7 +222,7 @@ def _build_dataframe( project_id, assay_type, directory ):
 
     return df
 
-def create_manifest( project_id, assay_type, directory ):
+def create_manifest( project_id, assay_type, dbgap_study_id, directory ):
     filename = 'file.tsv'
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if not Path(directory).exists() and not Path(temp_file).exists():
@@ -220,6 +231,6 @@ def create_manifest( project_id, assay_type, directory ):
     else:
         if Path(temp_file).exists():
             print('Temp file ' + temp_file + ' found. Continuing computation.')
-        df = _build_dataframe( project_id, assay_type, directory )
+        df = _build_dataframe( project_id, assay_type, dbgap_study_id, directory )
         df.to_csv( filename, sep="\t", index=False)
         return True

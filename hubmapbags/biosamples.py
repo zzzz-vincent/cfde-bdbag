@@ -9,13 +9,13 @@ def __get_organ_from_uberon( organ ):
     '''
    
     organs = {}
-    organs['SI'] = 'UBERON:0002108' #small intestine
-    organs['LI'] = 'UBERON:0000059' #large intestine
-    organs['LK'] = 'UBERON:0004538' #left kidney
-    organs['RK'] = 'UBERON:0004539' #right kidney
-    organs['SP'] = 'UBERON:0002106' #spleen    
-    organs['TH'] = 'UBERON:0002370' #thymus
-    organs['HT'] = 'UBERON:0000948' #heart
+    organs['small intestine'] = 'UBERON:0002108' #small intestine
+    organs['large intestine'] = 'UBERON:0000059' #large intestine
+    organs['left kidney'] = 'UBERON:0004538' #left kidney
+    organs['right kidney'] = 'UBERON:0004539' #right kidney
+    organs['spleen'] = 'UBERON:0002106' #spleen    
+    organs['thymus'] = 'UBERON:0002370' #thymus
+    organs['heart'] = 'UBERON:0000948' #heart
     organs['LY01'] = 'UBERON:0000029' #lymph node
     organs['LY02'] = 'UBERON:0000029' #lymph node
     organs['LY03'] = 'UBERON:0000029' #lymph node
@@ -28,7 +28,7 @@ def __get_organ_from_uberon( organ ):
     organs['LY10'] = 'UBERON:0000029' #lymph node
     organs['LY11'] = 'UBERON:000029' #lymph node
     organs['LY11'] = 'UBERON:0000029' #lymph node
-    organs['LY'] = 'UBERON:0000029' #lymph node
+    organs['lymph node'] = 'UBERON:0000029' #lymph node
 
     return organs[organ]
 
@@ -37,7 +37,7 @@ def _build_dataframe( biosample_id, data_provider, organ ):
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2021:'
+    id_namespace = 'tag:hubmapconsortium.org,2022:'
     headers = ['id_namespace', 'local_id', 'project_id_namespace', 'project_local_id', 'persistent_id', 'creation_time', 'anatomy']
     df = pd.DataFrame(columns=headers)
     df = df.append({'id_namespace':id_namespace, \

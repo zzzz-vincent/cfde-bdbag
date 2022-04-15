@@ -4,10 +4,10 @@ from shutil import rmtree
 import datetime
 import time
 import os
-import pickle
 import mimetypes
+import pickle
 
-def _build_dataframe( biosample_id, directory ):
+def _build_dataframe( hubmap_id, directory ):
     '''
     Build a dataframe with minimal information for this entity.
     '''
@@ -15,8 +15,8 @@ def _build_dataframe( biosample_id, directory ):
     id_namespace = 'tag:hubmapconsortium.org,2022:'
     headers = ['file_id_namespace', \
                'file_local_id', \
-               'biosample_id_namespace', \
-               'biosample_local_id']
+               'collection_id_namespace', \
+               'collection_local_id']
 
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if Path( temp_file ).exists():
@@ -25,23 +25,24 @@ def _build_dataframe( biosample_id, directory ):
             df = pickle.load(file)
 
         df = df.drop(columns=['project_id_namespace', 'project_local_id', \
-            'persistent_id', 'creation_time', 'size_in_bytes', \
-            'uncompressed_size_in_bytes', 'sha256', 'md5', 'filename', 'dbgap_study_id', \
+            'persistent_id', 'creation_time', 'size_in_bytes', 'dbgap_study_id', \
+            'uncompressed_size_in_bytes', 'sha256', 'md5', 'filename', \
             'file_format', 'data_type', 'assay_type', 'mime_type', 'sha256', \
             'compression_format','bundle_collection_id_namespace','bundle_collection_local_id'])
 
-        df['biosample_id_namespace']=df['id_namespace']
+        df['subject_id_namespace']=id_namespace
         df = df.rename(columns={'id_namespace': 'file_id_namespace', \
             'local_id':'file_local_id'}, errors ="raise")
-        df['biosample_local_id'] = biosample_id
-        df[['file_id_namespace', 'file_local_id', 'biosample_id_namespace', 'biosample_local_id']]
+        df['collection_local_id'] = hubmap_id
+        df['collection_id_namespace']=id_namespace
+        df[['file_id_namespace', 'file_local_id', 'collection_id_namespace', 'collection_local_id']]
     else:
-        df = [] 
+        df = []
 
-    return df
+    return df[df['file_local_id'].str.contains('metadata')]
 
-def create_manifest( biosample_id, directory ):
-    filename = 'file_describes_biosample.tsv'
+def create_manifest( hubmap_id, directory ):
+    filename = 'file_describes_collection.tsv'
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if not Path(directory).exists() and not Path(temp_file).exists():
         print('Data directory ' + directory + ' does not exist. Temp file was not found either.')
@@ -49,6 +50,6 @@ def create_manifest( biosample_id, directory ):
     else:
         if Path(temp_file).exists():
             print('Temp file ' + temp_file + ' found. Continuing computation.')
-        df = _build_dataframe( biosample_id, directory )
+        df = _build_dataframe( hubmap_id, directory )
         df.to_csv( filename, sep="\t", index=False)
         return True

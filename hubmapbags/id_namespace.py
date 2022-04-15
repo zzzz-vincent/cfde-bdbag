@@ -7,18 +7,18 @@ def _build_dataframe():
     Build a dataframe with minimal information for this entity.
     '''
 
-    id_namespace = 'tag:hubmapconsortium.org,2022:'
-    headers = ['id','clade','name','description']
+    id_namespace = 'HuBMAP'
+    headers = ['id', 'abbreviation', 'name', 'description']
     df = pd.DataFrame(columns=headers)
-    df = df.append({'id':'NCBI:txid9606', \
-       'clade':'', \
-       'name':'Homo sapiens Linnaeus, 1758', \
-       'description':'Homo sapiens Linnaeus, 1758'}, ignore_index=True)
+    df = df.append({'id':'HuBMAP', \
+           'abbreviation':'HuBMAP', \
+           'name':'HuBMAP', \
+           'description':'Human BioMolecular Atlas Program'}, ignore_index=True)
 
     return df
 
 def create_manifest():
-    filename = 'ncbi_taxonomy.tsv'
+    filename = 'id_namespace.tsv'
     df = _build_dataframe()
     df.to_csv( filename, sep="\t", index=False)
 
