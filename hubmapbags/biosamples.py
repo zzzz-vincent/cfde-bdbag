@@ -1,6 +1,5 @@
 import pandas as pd
-from pathlib import Path
-from shutil import rmtree
+import os
 
 def __get_organ_from_uberon( organ ):
     '''
@@ -29,6 +28,8 @@ def __get_organ_from_uberon( organ ):
     organs['LY11'] = 'UBERON:000029' #lymph node
     organs['LY11'] = 'UBERON:0000029' #lymph node
     organs['lymph node'] = 'UBERON:0000029' #lymph node
+    organs['skin'] = 'UBERON:0002097' #skin
+    organs['blood'] = 'UBERON:0000178' #blood 
 
     return organs[organ]
 
@@ -48,8 +49,8 @@ def _build_dataframe( biosample_id, data_provider, organ ):
 
     return df
 
-def create_manifest( biosample_id, data_provider, organ ):
-    filename = 'biosample.tsv'
+def create_manifest( biosample_id, data_provider, organ, output_directory ):
+    filename = os.path.join( output_directory, 'biosample.tsv' )
     df = _build_dataframe( biosample_id, data_provider, organ )
     df.to_csv( filename, sep="\t", index=False)
 

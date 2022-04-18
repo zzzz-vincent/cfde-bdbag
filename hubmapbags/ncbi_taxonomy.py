@@ -1,6 +1,5 @@
 import pandas as pd
-from pathlib import Path
-from shutil import rmtree
+import os
 
 def _build_dataframe():
     '''
@@ -17,8 +16,8 @@ def _build_dataframe():
 
     return df
 
-def create_manifest():
-    filename = 'ncbi_taxonomy.tsv'
+def create_manifest( output_directory ):
+    filename = os.path.join( output_directory, 'ncbi_taxonomy.tsv' )
     df = _build_dataframe()
     df.to_csv( filename, sep="\t", index=False)
 

@@ -2,7 +2,7 @@
 hubmapbags
 """
 
-__version__ = '0.0.0'
+__version__ = '2022.2' # year 2022 2nd quarter
 __author__ = 'Ivan Cao-Berg'
 __credits__ = 'HuBMAP IEC Team'
 
@@ -25,3 +25,18 @@ from .file_describes_subject import *
 from .collection_defined_by_project import *
 from .project_in_project import *
 from .file_describes_collection import *
+from .anatomy import *
+from .assay_type import *
+from .biosample_disease import *
+from .biosample_gene import *
+from .biosample_substance import *
+from .collection_anatomy import *
+from .collection_compound import *
+from .collection_disease import *
+from .collection_gene import *
+from .collection_phenotype import *
+from .collection_protein import *
+from .collection_substance import *
+from .collection_taxonomy import *
+from .collection_in_collection import *
+from .file_format import *

@@ -1,6 +1,5 @@
 import pandas as pd
-from pathlib import Path
-from shutil import rmtree
+import os
 
 def _build_dataframe( donor_id, hubmap_id ):
     '''
@@ -17,8 +16,8 @@ def _build_dataframe( donor_id, hubmap_id ):
 
     return df
 
-def create_manifest( donor_id, hubmap_id ):
-    filename = 'subject_in_collection.tsv'
+def create_manifest( donor_id, hubmap_id, output_directory ):
+    filename = os.path.join( output_directory, 'subject_in_collection.tsv' )
     df = _build_dataframe( donor_id, hubmap_id )
     df.to_csv( filename, sep="\t", index=False)
 

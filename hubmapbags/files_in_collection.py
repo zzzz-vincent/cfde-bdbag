@@ -151,8 +151,8 @@ def _build_dataframe( hubmap_id, directory ):
                         'collection_local_id':hubmap_id}, ignore_index=True)
     return df
 
-def create_manifest( hubmap_id, directory ):
-    filename = 'file_in_collection.tsv'
+def create_manifest( hubmap_id, directory, output_directory ):
+    filename = os.path.join( output_directory, 'file_in_collection.tsv' )
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if not Path(directory).exists() and not Path(temp_file).exists():
         print('Data directory ' + directory + ' does not exist. Temp file was not found either.')

@@ -1,6 +1,5 @@
 import pandas as pd
-from pathlib import Path
-from shutil import rmtree
+import os
 
 def _build_dataframe( data_provider ):
     '''
@@ -20,8 +19,8 @@ def _build_dataframe( data_provider ):
   
     return df
 
-def create_manifest( data_provider ):
-    filename = 'project_in_project.tsv'
+def create_manifest( data_provider, output_directory ):
+    filename = os.path.join( output_directory, 'project_in_project.tsv' )
     df = _build_dataframe( data_provider )
     df.to_csv( filename, sep="\t", index=False)
 

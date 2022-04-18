@@ -187,13 +187,13 @@ def _build_dataframe( project_id, assay_type, dbgap_study_id, directory ):
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
 
     if Path( temp_file ).exists():
-        print('Temporary file ' + temp_file + ' found. Loading df into memory') 
+        print( 'Temporary file ' + temp_file + ' found. Loading df into memory' ) 
         with open( temp_file, 'rb' ) as file:
            df = pickle.load(file)
     else:
         df = pd.DataFrame(columns=headers)
         p = _get_list_of_files( directory )
-        print('Finding all files in directory')
+        print( 'Finding all files in directory' )
 
         for file in p:
             if file.is_file():
@@ -222,8 +222,8 @@ def _build_dataframe( project_id, assay_type, dbgap_study_id, directory ):
 
     return df
 
-def create_manifest( project_id, assay_type, dbgap_study_id, directory ):
-    filename = 'file.tsv'
+def create_manifest( project_id, assay_type, dbgap_study_id, directory, output_directory ):
+    filename = os.path.join( output_directory, 'file.tsv' )
     temp_file = directory.replace('/','_').replace(' ','_') + '.pkl'
     if not Path(directory).exists() and not Path(temp_file).exists():
         print('Data directory ' + directory + ' does not exist. Temp file was not found either.')
