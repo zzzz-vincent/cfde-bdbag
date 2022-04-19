@@ -27,3 +27,4 @@ share/
 _hive*done
 _hive*computing
 *.pkl
+*.json
