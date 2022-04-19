@@ -7,12 +7,15 @@ def _build_dataframe( biosample_id, subject_id ):
     '''
 
     id_namespace = 'tag:hubmapconsortium.org,2022:'
-    headers = ['biosample_id_namespace', 'biosample_local_id', 'subject_id_namespace', 'subject_local_id']
+    headers = ['biosample_id_namespace', 'biosample_local_id', \
+               'subject_id_namespace', 'subject_local_id', \
+               'age_at_sampling']
     df = pd.DataFrame(columns=headers)
     df = df.append({'biosample_id_namespace':id_namespace, \
                      'biosample_local_id':biosample_id, \
                      'subject_id_namespace':id_namespace, \
-                     'subject_local_id':subject_id}, ignore_index=True)
+                     'subject_local_id':subject_id, \
+                     'age_at_sampling':''}, ignore_index=True)
 
     return df
 

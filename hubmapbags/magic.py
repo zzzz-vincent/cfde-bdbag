@@ -19,9 +19,9 @@ from . import collection_anatomy, collection_compound, \
               subject_in_collection, ncbi_taxonomy, \
               id_namespace, biosample_in_collection, \
               file_in_collection, primary_dcc_contact, \
-              biosamples, projects, \
-              collections, anatomy, \
-              files, collection_defined_by_project, \
+              biosample, projects, \
+              collection, anatomy, \
+              file as files, collection_defined_by_project, \
               collection_disease, collection_gene, \
               collection_phenotype, collection_protein, \
               collection_substance, collection_taxonomy, \
@@ -79,7 +79,7 @@ def do_it( metadata_file, dbgap_study_id='' ):
                 p.mkdir(parents=True, exist_ok=True)
 
             print('Making biosample.tsv')
-            biosamples.create_manifest( biosample_id, data_provider, organ_shortcode, output_directory )
+            biosample.create_manifest( biosample_id, data_provider, organ_shortcode, output_directory )
 
             print('Making file.tsv')
             answer = files.create_manifest( data_provider, data_type, dbgap_study_id, data_directory, output_directory )
@@ -100,7 +100,7 @@ def do_it( metadata_file, dbgap_study_id='' ):
             ncbi_taxonomy.create_manifest( output_directory )
 
             print('Making collection.tsv')
-            collections.create_manifest( hubmap_id, output_directory )
+            collection.create_manifest( hubmap_id, output_directory )
 
             print('Making collection_defined_by_project.tsv')
             collection_defined_by_project.create_manifest( hubmap_id, data_provider, output_directory )

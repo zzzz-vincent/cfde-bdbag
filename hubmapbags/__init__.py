@@ -6,9 +6,11 @@ __version__ = '2022.2' # year 2022 2nd quarter
 __author__ = 'Ivan Cao-Berg'
 __credits__ = 'HuBMAP IEC Team'
 
-from .biosamples import *
-from .collections import *
-from .files import *
+from .uuids import *
+from .utilities import *
+from .biosample import *
+from .collection import *
+from .file import *
 from .projects import *
 from .id_namespace import *
 from .primary_dcc_contact import *
