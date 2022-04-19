@@ -4,9 +4,17 @@ import os
 import json
 import time
 import requests
+from argparse import ArgumentParser
 
-file = str(sys.argv[1])
-print('Processing ' + file + '.')
+parser = ArgumentParser()
+parser.add_argument( '-i', '--input', dest='file', default=None, help='Input filename' )
+parser.add_argument( '-d', '--debug', dest='debug', action='store_true', help='Debug' )
+results = parser.parse_args()
+file = results.file
+debug = results.debug
+
+if debug:
+	print('Processing ' + file + '.')
 
 # icaoberg since neither the hubmap id nor the uuid are save in the dataframe
 # extract it from the filename
@@ -14,13 +22,15 @@ duuid=file.split('_')[-1].split('.')[0]
 
 TOKEN = os.getenv('TOKEN')
 if not TOKEN:
-	print('TOKEN not set. Exiting script.')
+	if debug:
+		print('TOKEN not set. Exiting script.')
 	sys.exit()
 
 try:
 	df = pandas.read_pickle( file )
 except:
-	print('Unable to load pickle file ' + file + '. Exiting script.' )
+	if debug:
+		print('Unable to load pickle file ' + file + '. Exiting script.' )
 	sys.exit()
 
 # Making a POST requesit¬
@@ -48,29 +58,35 @@ if len(df) <= 1000:
 		j = json.loads(r.text)
 
 		if 'message' in j:
-			print('Request response. Not populating data frame and exiting script.')
+			if debug:
+				print('Request response. Not populating data frame and exiting script.')
 			print(j['message'])
 			sys.exit()
 		else:
 			for datum in j:
 				df.loc[df['local_id'].str.contains(datum['file_path']),'hubmap_uuid']=datum['uuid']
   
-			print('Updating pickle file ' + file + ' with the request response.')
+			if debug:
+				print('Updating pickle file ' + file + ' with the request response.')
+
 			df.to_pickle(file)
 			with open(file.replace('pkl','json'),'w') as outfile:
 				json.dump(j, outfile, indent=4)
-
 	else:
-		print('HuBMAP uuid column is populated. Skipping generation.')
+		if debug:
+			print('HuBMAP uuid column is populated. Skipping generation.')
 else:
-	print('Data frame has ' + str(len(df)) + ' items. Partitioning into smaller chunks.')
+	if debug:
+		print('Data frame has ' + str(len(df)) + ' items. Partitioning into smaller chunks.')
+
 	n = 1000  #chunk row size
 	dfs = [df[i:i+n] for i in range(0,df.shape[0],n)]
 	
 	counter = 0
 	for frame in dfs:
 		counter=counter+1
-		print('Computing uuids on partition ' + str(counter) + ' of ' + str(len(dfs)) + '.')
+		if debug:
+			print('Computing uuids on partition ' + str(counter) + ' of ' + str(len(dfs)) + '.')
 
 		file_info = []
 		for datum in frame.iterrows():
@@ -88,23 +104,26 @@ else:
 		params = {'entity_count':len(file_info)}
 
 		if frame['hubmap_uuid'].isnull().all():
-			print('Generating uuids')
+			if debug:
+				print('Generating uuids')
+
 			r = requests.post(URL, params=params, headers=headers, data=json.dumps(payload), allow_redirects=True, timeout=120)
 			j = json.loads(r.text)
 			time.sleep(5)
 
 			if 'message' in j:
-				print('Request response. Not populating data frame.')
+				if debug:
+					print('Request response. Not populating data frame.')
 				print(j['message'])
 				sys.exit()
 			else:
 				for datum in j:
 					df.loc[df['local_id'].str.contains(datum['file_path']),'hubmap_uuid']=datum['uuid']
 
-				print('Updating pickle file ' + file + ' with the results of this chunk.')
+				if debug:
+					print('Updating pickle file ' + file + ' with the results of this chunk.')
 				df.to_pickle(file)
 		else:
-			print('HuBMAP uuid chunk is populated. Skipping recomputation.')
-
-
+			if debug:
+				print('HuBMAP uuid chunk is populated. Skipping recomputation.')
 
