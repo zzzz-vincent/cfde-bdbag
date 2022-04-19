@@ -7,6 +7,10 @@ import requests
 from argparse import ArgumentParser
 
 def generate( file, debug=True ):
+	'''
+	Main function that generates UUIDs using the uuid-api.
+	'''
+
 	if debug:
 		print('Processing ' + file + '.')
 
