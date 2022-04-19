@@ -6,16 +6,22 @@ import time
 import requests
 
 file = str(sys.argv[1])
-print(file)
+print('Processing ' + file + '.')
 
-TOKEN = os.getenv('TOKEN')
+# icaoberg since neither the hubmap id nor the uuid are save in the dataframe
+# extract it from the filename
 duuid=file.split('_')[-1].split('.')[0]
 
+TOKEN = os.getenv('TOKEN')
 if not TOKEN:
 	print('TOKEN not set. Exiting script.')
 	sys.exit()
 
-df = pandas.read_pickle( file )
+try:
+	df = pandas.read_pickle( file )
+except:
+	print('Unable to load pickle file ' + file + '. Exiting script.' )
+	sys.exit()
 
 # Making a POST requesit¬
 URL='https://uuid-api.dev.hubmapconsortium.org/hmuuid/'
@@ -42,16 +48,18 @@ if len(df) <= 1000:
 		j = json.loads(r.text)
 
 		if 'message' in j:
-			print('Request response. Not populating data frame.')
+			print('Request response. Not populating data frame and exiting script.')
 			print(j['message'])
 			sys.exit()
 		else:
 			for datum in j:
 				df.loc[df['local_id'].str.contains(datum['file_path']),'hubmap_uuid']=datum['uuid']
   
+			print('Updating pickle file ' + file + ' with the request response.')
 			df.to_pickle(file)
 			with open(file.replace('pkl','json'),'w') as outfile:
 				json.dump(j, outfile, indent=4)
+
 	else:
 		print('HuBMAP uuid column is populated. Skipping generation.')
 else:
@@ -63,6 +71,7 @@ else:
 	for frame in dfs:
 		counter=counter+1
 		print('Computing uuids on partition ' + str(counter) + ' of ' + str(len(dfs)) + '.')
+
 		file_info = []
 		for datum in frame.iterrows():
 			datum = datum[1]
@@ -92,10 +101,8 @@ else:
 				for datum in j:
 					df.loc[df['local_id'].str.contains(datum['file_path']),'hubmap_uuid']=datum['uuid']
 
-				print('Saving all results to disk.')
+				print('Updating pickle file ' + file + ' with the results of this chunk.')
 				df.to_pickle(file)
-				with open(file.replace('pkl','json'),'w') as outfile:
-					json.dump(j, outfile, indent=4)
 		else:
 			print('HuBMAP uuid chunk is populated. Skipping recomputation.')
 
