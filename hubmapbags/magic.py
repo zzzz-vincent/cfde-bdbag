@@ -18,7 +18,7 @@ from . import collection_anatomy, collection_compound, \
               biosample_from_subject, subject, \
               subject_in_collection, ncbi_taxonomy, \
               id_namespace, biosample_in_collection, \
-              files_in_collection, primary_dcc_contact, \
+              file_in_collection, primary_dcc_contact, \
               biosamples, projects, \
               collections, anatomy, \
               files, collection_defined_by_project, \
@@ -47,8 +47,8 @@ def do_it( metadata_file, dbgap_study_id='' ):
         data_directory = dataset['full_path']
         print('Preparing bag for dataset ' + data_directory )
         computing = data_directory.replace('/','_').replace(' ','_') + '.computing'
-        done = data_directory.replace('/','_').replace(' ','_') + '.done'
-        broken = data_directory.replace('/','_').replace(' ','_') + '.broken'
+        done = '.' + data_directory.replace('/','_').replace(' ','_') + '.done'
+        broken = '.' + data_directory.replace('/','_').replace(' ','_') + '.broken'
         organ_shortcode = dataset['organ_type']
         organ_id = dataset['organ_id']
         donor_id = dataset['donor_id'] 
@@ -117,17 +117,15 @@ def do_it( metadata_file, dbgap_study_id='' ):
             print('Making subject.tsv')
             subject.create_manifest( data_provider, donor_id, output_directory )
 
-            print('Making file_describes_biosample.tsv')
-            file_describes_biosample.create_manifest( biosample_id, data_directory, output_directory )
-
             print('Making subject_in_collection.tsv')
             subject_in_collection.create_manifest( donor_id, hubmap_id, output_directory )
 
-            print('Making files_in_collection.tsv')
-            answer = files_in_collection.create_manifest( hubmap_id, data_directory, output_directory )
+            print('Making file_in_collection.tsv')
+            answer = file_in_collection.create_manifest( hubmap_id, data_directory, output_directory )
 
             print('Creating empty files')
             file_describes_subject.create_manifest( output_directory )
+            file_describes_biosample.create_manifest( output_directory )
             anatomy.create_manifest( output_directory )
             assay_type.create_manifest( output_directory )
             biosample_disease.create_manifest( output_directory )

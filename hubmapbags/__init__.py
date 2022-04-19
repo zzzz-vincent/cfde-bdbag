@@ -13,7 +13,7 @@ from .projects import *
 from .id_namespace import *
 from .primary_dcc_contact import *
 from .magic import *
-from .files_in_collection import *
+from .file_in_collection import *
 from .biosample_in_collection import *
 from .subject import *
 from .ncbi_taxonomy import *
