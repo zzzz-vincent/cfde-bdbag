@@ -59,7 +59,7 @@ def generate( file, debug=True ):
 				if debug:
 					print('Request response. Not populating data frame and exiting script.')
 				print(j['message'])
-			return False
+			        return False
 			else:
 				for datum in j:
 					df.loc[df['local_id'].str.contains(datum['file_path']),'hubmap_uuid']=datum['uuid']
